@@ -1,0 +1,36 @@
+#include <stdio.h>
+#include <stdbool.h>
+
+#define MAX 100
+
+bool isBalanced(char* s) {
+    char stack[MAX];
+    int top = -1;
+
+    for (int i = 0; s[i] != '\0'; i++) {
+        if (s[i] == '(' || s[i] == '{' || s[i] == '[') {
+            stack[++top] = s[i];
+        } else {
+            if (top == -1) return false;
+            char open = stack[top--];
+            if ((s[i] == ')' && open != '(') ||
+                (s[i] == '}' && open != '{') ||
+                (s[i] == ']' && open != '[')) {
+                return false;
+            }
+        }
+    }
+    return (top == -1);
+}
+
+int main() {
+    
+    char* test_cases[] = {"{([])}", "()[]{}", "([]", "(([]))"};
+    
+    for(int i = 0; i < 4; i++) {
+        printf("Input: s = \"%s\"\n", test_cases[i]);
+        printf("Output: %s\n\n", isBalanced(test_cases[i]) ? "true" : "false");
+    }
+
+    return 0;
+}
